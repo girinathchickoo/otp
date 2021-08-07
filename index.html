@@ -1,0 +1,36 @@
+<html  >
+   
+    <title>otp</title>
+    <body style="text-align: center;">
+        <form>
+            <h4>Enter otp here</h4>
+<input type="text" placeholder="enter the otp" inputmode="numeric" autocomplete="one-time-code"/>
+<button type="submit">verify</button>
+</form>
+<script>
+    console.log(document.querySelector('input'))
+      if ('OTPCredential' in window) {
+window.addEventListener('DOMContentLoaded', e => {
+  const input = document.querySelector('input[autocomplete="one-time-code"]');
+  if (!input) return;
+  const ac = new AbortController();
+  const form = input.closest('form');
+  if (form) {
+    form.addEventListener('submit', e => {
+      ac.abort();
+    });
+  }
+  navigator.credentials.get({
+    otp: { transport:['sms'] },
+    signal: ac.signal
+  }).then(otp => {
+    input.value = otp.code;
+    if (form) form.submit();
+  }).catch(err => {
+    console.log(err);
+  });
+});
+}
+  </script>
+    </body>
+</html>
